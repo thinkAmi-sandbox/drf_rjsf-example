@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from api.serializers import DiarySerializer
+from diary.models import Diary
+
+
+class DiaryViewSet(viewsets.ModelViewSet):
+    queryset = Diary.objects.all()
+    serializer_class = DiarySerializer
