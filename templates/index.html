@@ -1,0 +1,24 @@
+{% load django_vite %}
+{#{% load static %}#}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {# vite_asset よりも上に書く必要がある #}
+    {# 下に書いた場合、以下のエラーになる #}
+    {# Uncaught Error: @vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201 #}
+    {% vite_react_refresh %}
+
+    {% vite_hmr_client %}
+
+    {% vite_asset 'main.tsx' %}
+
+    <title>Django + Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

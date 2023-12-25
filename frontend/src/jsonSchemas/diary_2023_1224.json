@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "#id": "https://example.com/thinkami_2023_1224.json",
+  "title": "Diary",
+  "$comment": "version 2023_1224",
+  "type": "object",
+  "required": ["content"],
+  "properties": {
+    "content": {
+      "type": "object",
+      "required": ["name", "note"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "note": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    }
+  }
+}
