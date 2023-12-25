@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "#id": "https://example.com/thinkami.json",
+  "title": "Diary",
+  "type": "object",
+  "required": ["content"],
+  "properties": {
+    "content": {
+      "type": "object",
+      "required": ["name", "note"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "note": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    }
+  }
+}

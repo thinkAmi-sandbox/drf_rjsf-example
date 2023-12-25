@@ -12,6 +12,12 @@ export default defineConfig({
   // Djangoでの静的ファイル配信設定である STATIC_URL と同じになるよう設定
   base: '/static/',
 
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './frontend/src')
+    }
+  },
+
   // 今回はproductionでは動かさないため、build 関係は設定しない
 
   server: {

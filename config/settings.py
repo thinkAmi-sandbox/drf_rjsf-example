@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_vite',
+    'django_extensions',
 
     'api.apps.ApiConfig',
     'diary.apps.DiaryConfig',
