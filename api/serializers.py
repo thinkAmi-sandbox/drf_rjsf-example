@@ -1,12 +1,28 @@
+import json
 import traceback
 from copy import deepcopy
 
+from django.conf import settings
+from jsonschema.validators import Draft7Validator
 from rest_framework import serializers
+from jsonschema import validate, ValidationError
 
 from diary.models import Diary
 
 
 class DiarySerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        with open(settings.BASE_DIR / 'frontend' / 'src' / 'jsonSchemas' / 'diary.json') as f:
+            json_schema = json.load(f)
+
+        errors = Draft7Validator(json_schema).iter_errors(attrs)
+        messages = [e.message for e in errors]
+
+        if messages:
+            raise serializers.ValidationError(messages)
+
+        return attrs
+
     def create(self, validated_data):
         ModelClass = self.Meta.model
 
