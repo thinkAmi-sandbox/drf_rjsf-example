@@ -1,24 +1,19 @@
 import {Link, useNavigate, useParams} from "@tanstack/react-router";
 import validator from '@rjsf/validator-ajv8';
 import Form from '@rjsf/mui';
-import jsonSchema from "@/jsonSchemas/diary.json"
 import {useDiary} from "@/hooks/useDiary";
 import React, {useEffect, useState} from "react";
 import {useUiSchema} from "@/hooks/useUiSchema";
 import Stack from "@mui/material/Stack";
+import {FormData, useSchema} from "../../hooks/useSchema";
+import {useWidget} from "../../hooks/useWidget";
 
-
-type FormData = {
-  content: {
-    name: string
-    note: string
-  }
-}
 
 type ApiResponse = {
   id: number,
   name: string,
   content: FormData,
+  version: string,
   updated_at: string
 }
 
@@ -34,6 +29,10 @@ export const Edit = () => {
   const [formData, setFormData] = useState<FormData>()
   const {uiSchema} = useUiSchema()
 
+  const [version, setVersion] = useState('2023_1224')
+  const {importJsonSchema, toFormData} = useSchema()
+  const {widgets} = useWidget()
+
   // https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/form-props#onsubmit
   const handleSubmit = ({formData}, _event) => {
     mutate(formData.content, {
@@ -46,17 +45,16 @@ export const Edit = () => {
   useEffect(() => {
     if (!data) return
 
-    setFormData(
-      {
-        content: {
-          name: data.content.name,
-          note: data.content.note
-        }
-      }
-    )
+    setVersion(data.version)
+
+    setFormData(toFormData(data, data.version))
   }, [data])
 
   if (isLoading) return <div>Loading</div>
+
+  const formContext = {
+    version: version
+  }
 
   return (
     <>
@@ -68,7 +66,9 @@ export const Edit = () => {
         </div>
       </Stack>
 
-      <Form<FormData> schema={jsonSchema} uiSchema={uiSchema} validator={validator} formData={formData}
+      <Form<FormData> schema={importJsonSchema(version)} uiSchema={uiSchema} validator={validator} formData={formData}
+                      widgets={widgets}
+                      formContext={formContext}
                       onSubmit={handleSubmit}/>
     </>
   )

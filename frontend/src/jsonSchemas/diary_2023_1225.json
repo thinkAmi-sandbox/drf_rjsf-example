@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "#id": "https://example.com/thinkami_2023_1225.json",
+  "title": "Diary",
+  "$comment": "version 2023_1225",
+  "type": "object",
+  "required": ["content"],
+  "definitions": {
+    "note": {
+      "type": "string",
+      "minLength": 5
+    }
+  },
+  "properties": {
+    "content": {
+      "type": "object",
+      "required": ["color", "name", "note"],
+      "properties": {
+        "color": {
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "黄"
+            },
+            {
+              "const": "緑"
+            },
+            {
+              "const": "赤"
+            }
+          ]
+        }
+      },
+      "dependencies": {
+        "color": {
+          "oneOf": [
+            {
+              "required": ["name"],
+              "properties": {
+                "color": {
+                  "const": "黄"
+                },
+                "name": {
+                  "type": "string",
+                  "oneOf": [
+                    {
+                      "const": "シナノゴールド"
+                    },
+                    {
+                      "const": "トキ"
+                    },
+                    {
+                      "const": "その他"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "required": ["name"],
+              "properties": {
+                "color": {
+                  "const": "緑"
+                },
+                "name": {
+                  "type": "string",
+                  "oneOf": [
+                    {
+                      "const": "ブラムリー"
+                    },
+                    {
+                      "const": "グラニースミス"
+                    },
+                    {
+                      "const": "その他"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "required": ["name"],
+              "properties": {
+                "color": {
+                  "const": "赤"
+                },
+                "name": {
+                  "type": "string",
+                  "oneOf": [
+                    {
+                      "const": "フジ"
+                    },
+                    {
+                      "const": "秋映"
+                    },
+                    {
+                      "const": "その他"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "name": {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "その他"
+              }
+            }
+          },
+          "then": {
+            "required": ["variety", "note"],
+            "properties": {
+              "variety": {
+                  "type": "string"
+              },
+              "note": {
+                "$ref": "#/definitions/note"
+              }
+            }
+          },
+          "else": {
+            "required": ["note"],
+            "not": {
+              "required": ["variety"]
+            },
+            "properties": {
+              "note": {
+                "$ref": "#/definitions/note"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
