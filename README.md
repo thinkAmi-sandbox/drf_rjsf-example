@@ -1,5 +1,14 @@
 # drf_rjsf-example
 
+## Usage Note
+
+if you try `run server` , rename `dot_env` file to `.env`
+
+dot_env file in 2 directory
+
+- root
+- frontend/src
+
 ## Tested Environment
 ### frontend
 
